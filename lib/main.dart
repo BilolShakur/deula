@@ -1,9 +1,14 @@
 import 'package:deula/core/di/service_locator.dart';
-
+import 'package:deula/feautures/home/data/meal_reposotory.dart';
+import 'package:deula/feautures/home/presentation/screens/bloc/meal_bloc.dart';
 import 'package:deula/feautures/main/bottom_navi.dart';
+import 'package:deula/feautures/water/data/reposotory/water_reposotory.dart';
+import 'package:deula/feautures/water/presentation/bloc/water_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,16 +16,27 @@ void main() async {
   await setupLocator();
 
   runApp(
-    EasyLocalization(
-      supportedLocales: const [
-        Locale('en'), // English
-        Locale('uz'), // Uzbek 
-        Locale('ru'), // Russian
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              WaterBloc(repository: GetIt.instance<WaterRepository>()),
+        ),
+        BlocProvider(
+          create: (context) => MealBloc(GetIt.instance<MealRepository>()),
+        ),
       ],
-      path: 'assets/translations',
-      startLocale: Locale("ru"),
-      fallbackLocale: const Locale('ru'),
-      child: const DeulaApp(),
+      child: EasyLocalization(
+        supportedLocales: const [
+          Locale('en'), // English
+          Locale('uz'), // Uzbek
+          Locale('ru'), // Russian
+        ],
+        path: 'assets/translations',
+        startLocale: Locale("en"),
+        fallbackLocale: const Locale('en'),
+        child: const DeulaApp(),
+      ),
     ),
   );
 }

@@ -1,17 +1,17 @@
 name: deula
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
   sdk: ^3.8.0
 
 dependencies:
-  circular_indicator: ^1.0.6
   easy_localization: ^3.0.7+1
   fl_chart: ^1.0.0
   flutter:
     sdk: flutter
+  flutter_bloc: ^9.1.1
   flutter_localization: ^0.3.3
   flutter_screenutil: ^5.9.3
   get_it: ^8.0.3
