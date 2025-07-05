@@ -4,6 +4,9 @@ import 'package:deula/feautures/home/presentation/screens/bloc/meal_bloc.dart';
 import 'package:deula/feautures/home/presentation/widgets/daily_chart.dart';
 import 'package:deula/feautures/home/presentation/widgets/meal_card.dart';
 import 'package:deula/feautures/home/presentation/widgets/sumary_container.dart';
+import 'package:deula/feautures/water/presentation/bloc/water_bloc.dart';
+import 'package:deula/feautures/water/presentation/bloc/water_event.dart';
+import 'package:deula/feautures/water/presentation/bloc/water_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,12 +20,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenContentState extends State<HomeScreen> {
-  
-   @override
+  @override
   void initState() {
     super.initState();
     context.read<MealBloc>().add(MealInitialEvent());
+    context.read<WaterBloc>().add(InitWaterEvent());
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,12 +75,16 @@ class HomeScreenContentState extends State<HomeScreen> {
                         style: TextStyle(fontSize: 14.sp, color: Colors.grey),
                       ),
                       SizedBox(height: 20.h),
-                      SummaryCard(
-                        calories: "${totalCalories.toInt()} kcal",
-                        water: '2L',
-                        protein: "${totalProtein.toInt()} g",
-                        fat: "${totalFat.toInt()} g",
-                        sugar: "${totalSugar.toInt()} g",
+                      BlocBuilder<WaterBloc, WaterState>(
+                        builder: (context, state) {
+                          return SummaryCard(
+                            calories: "${totalCalories.toInt()} kcal",
+                            water: '${state.currentAmount / 1000} L',
+                            protein: "${totalProtein.toInt()} g",
+                            fat: "${totalFat.toInt()} g",
+                            sugar: "${totalSugar.toInt()} g",
+                          );
+                        },
                       ),
                       SizedBox(height: 24.h),
                       DailyPieChart(meals: meals),
