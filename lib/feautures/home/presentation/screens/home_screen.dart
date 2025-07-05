@@ -1,4 +1,5 @@
 import 'package:deula/core/di/service_locator.dart';
+import 'package:deula/dev_widgets.dart';
 
 import 'package:deula/feautures/home/presentation/screens/bloc/meal_bloc.dart';
 import 'package:deula/feautures/home/presentation/widgets/daily_chart.dart';
@@ -30,6 +31,11 @@ class HomeScreenContentState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          DevWidgets.deleteDatabaseFile();
+        },
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16.w),

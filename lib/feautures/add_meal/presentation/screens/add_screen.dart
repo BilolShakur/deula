@@ -45,7 +45,13 @@ class _AddMealScreenState extends State<AddMealScreen> {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(tr("meal_added_success"))));
-          Navigator.pop(context); // Go back to main screen
+
+          _formKey.currentState?.reset();
+          _titleController.clear();
+          _caloriesController.clear();
+          _proteinController.clear();
+          _fatController.clear();
+          _sugarController.clear();
         } else if (state is MealError) {
           ScaffoldMessenger.of(
             context,

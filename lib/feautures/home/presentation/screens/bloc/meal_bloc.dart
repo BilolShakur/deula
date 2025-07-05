@@ -29,9 +29,15 @@ class MealBloc extends Bloc<MealEvent, MealState> {
   }
 
   Future<void> _onAddMeal(AddMeal event, Emitter<MealState> emit) async {
+    if (state is MealLoaded) {
+      final currentMeals = List<MealData>.from((state as MealLoaded).meals);
+      final updatedMeals = [...currentMeals, event.meal];
+      emit(MealLoaded(updatedMeals)); // optimistically emit new state
+    }
+
     try {
       await repository.addMeal(event.meal);
-      final meals = await repository.fetchMeals();
+      final meals = await repository.fetchMeals(); // refetch from DB
       emit(MealLoaded(meals));
     } catch (e) {
       emit(MealError('Failed to add meal'));
