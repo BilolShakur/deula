@@ -10,3 +10,11 @@ class AddWater extends WaterEvent {
 class ResetWaterEvent extends WaterEvent {}
 
 class InitWaterEvent extends WaterEvent {}
+
+class getWatersByDate extends WaterEvent {
+  final DateTime start;
+  final DateTime end;
+  getWatersByDate({required this.start, required this.end});
+}
+
+class GetWaterToday extends WaterEvent {}

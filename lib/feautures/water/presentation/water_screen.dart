@@ -23,6 +23,7 @@ class _WaterScreenState extends State<WaterScreen>
   late Animation<double> _fadeSplash;
 
   final double dailyGoalMl = 2000.0;
+  bool _hasFetched = false;
 
   @override
   void initState() {
@@ -37,8 +38,16 @@ class _WaterScreenState extends State<WaterScreen>
       end: 1.0,
     ).animate(_splashController);
 
-    // This is the missing part
-    context.read<WaterBloc>().add(InitWaterEvent());
+    context.read<WaterBloc>().add(GetWaterToday());
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_hasFetched) {
+      context.read<WaterBloc>().add(GetWaterToday());
+      _hasFetched = true;
+    }
   }
 
   void handleAddWater(double ml) {

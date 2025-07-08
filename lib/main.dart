@@ -33,7 +33,7 @@ void main() async {
           Locale('ru'), // Russian
         ],
         path: 'assets/translations',
-        startLocale: Locale("en"),
+        startLocale: const Locale("en"),
         fallbackLocale: const Locale('en'),
         child: const DeulaApp(),
       ),
