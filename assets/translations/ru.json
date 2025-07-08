@@ -1,7 +1,7 @@
 {
     "greeting": "Доброе утро, 👋",
     "quote_you_are_what_you_eat": "Ты — это то, что ты ешь.",
-    "summary_title": "Сегодняшний итог",
+    "summary_title": "Сводка за {{period}}",
     "label_calories": "Калории",
     "label_water": "Вода",
     "label_protein": "Белки",

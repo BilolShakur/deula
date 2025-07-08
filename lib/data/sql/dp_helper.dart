@@ -40,8 +40,9 @@ class DBHelper {
         date TEXT
       )
     ''');
-    print("✅ meals table created");
+
   }
+
   static Future<List<Map<String, dynamic>>> getMealsBetween(
     DateTime start,
     DateTime end,

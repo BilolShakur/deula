@@ -194,6 +194,7 @@ class HomeScreenContentState extends State<HomeScreen> {
                             protein: "${totalProtein.toInt()} g",
                             fat: "${totalFat.toInt()} g",
                             sugar: "${totalSugar.toInt()} g",
+                            when: selectedFilter,
                           );
                         },
                       ),

@@ -32,13 +32,14 @@ class MealBloc extends Bloc<MealEvent, MealState> {
     if (state is MealLoaded) {
       final currentMeals = List<MealData>.from((state as MealLoaded).meals);
       final updatedMeals = [...currentMeals, event.meal];
-      emit(MealLoaded(updatedMeals)); // optimistic update
+      emit(MealLoaded(updatedMeals)); // Optimistic UI update
     }
 
     try {
       await repository.addMeal(event.meal);
-      final meals = await repository.fetchMeals(); // refetch from DB
+      final meals = await repository.fetchMeals(); // Fetch fresh data
       emit(MealLoaded(meals));
+      emit((OnAddSuccess()));
     } catch (e) {
       emit(MealError('Failed to add meal'));
     }

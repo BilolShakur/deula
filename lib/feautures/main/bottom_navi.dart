@@ -1,4 +1,3 @@
-import 'package:deula/core/di/service_locator.dart';
 import 'package:deula/feautures/add_meal/presentation/screens/add_screen.dart';
 import 'package:deula/feautures/home/presentation/screens/home_screen.dart';
 import 'package:deula/feautures/water/presentation/water_screen.dart';
@@ -6,7 +5,6 @@ import 'package:deula/feautures/water/presentation/water_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:go_router/go_router.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -18,16 +16,22 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
+  final screens = [
+    const HomeScreen(key: ValueKey("home")),
+    const AddMealScreen(key: ValueKey("add")),
+    const WaterScreen(key: ValueKey("water")),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    final screens = [
-      const HomeScreen(),
-      AddMealScreen(),
-      const WaterScreen(),
-    ];
-
     return Scaffold(
-      body: screens[_currentIndex],
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        transitionBuilder: (child, animation) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+        child: screens[_currentIndex],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (i) => setState(() => _currentIndex = i),
@@ -38,15 +42,15 @@ class _MainScreenState extends State<MainScreen> {
         items: [
           BottomNavigationBarItem(
             icon: const Icon(Icons.home_outlined),
-            label: tr("nav_home"), // Home tab label
+            label: tr("nav_home"),
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.add),
-            label: tr("add_meal"), // Add Meal tab label
+            label: tr("add_meal"),
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.local_drink),
-            label: tr("hydrate"), // Water tab label
+            label: tr("hydrate"),
           ),
         ],
       ),
