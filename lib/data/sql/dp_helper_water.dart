@@ -62,4 +62,15 @@ class WaterDBHelper {
     final db = await database;
     await db.delete('water');
   }
+
+  static Future<double> getWaterForDate(DateTime start, DateTime end) async {
+    final db = await database;
+    final result = await db.rawQuery(
+      'SELECT SUM(amount) as total FROM water WHERE timestamp >= ? AND timestamp < ?',
+      [start.toIso8601String(), end.toIso8601String()],
+    );
+
+    final total = result.first['total'] ?? 0.0;
+    return (total as num).toDouble();
+  }
 }

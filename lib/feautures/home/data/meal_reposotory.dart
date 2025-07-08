@@ -8,6 +8,10 @@ class MealRepository {
     return data.map((e) => MealData.fromMap(e)).toList();
   }
 
+  Future<List<Map<String, dynamic>>> fetchMealsBetween(DateTime start, DateTime end) {
+    return DBHelper.getMealsBetween(start, end);
+  }
+
   // Today's meals
   Future<List<MealData>> fetchTodayMeals() async {
     final data = await DBHelper.getTodayMeals();

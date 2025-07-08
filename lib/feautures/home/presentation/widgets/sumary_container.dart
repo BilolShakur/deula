@@ -31,10 +31,12 @@ class SummaryCard extends StatelessWidget {
     bool waterDanger = false;
 
     // 🔥 Calories
-    if (cal < 1200 || cal > 2800) {
-      score += 1;
+    if (cal < 700 || cal > 3500) {
+      score += 5;
+    } else if (cal >= 1200 && cal <= 2800) {
+      score += 2;
     } else if (cal >= 1500 && cal <= 2500) {
-      score -= 1;
+      score -= 4;
     }
 
     // 💧 Water
@@ -53,6 +55,10 @@ class SummaryCard extends StatelessWidget {
     // 🍗 Protein
     if (prot < 35) {
       score += 1;
+    } else if (prot >= 100) {
+      score -= 3;
+    } else if (prot >= 700) {
+      score -= 2;
     } else if (prot >= 50) {
       score -= 1;
     }
@@ -71,7 +77,9 @@ class SummaryCard extends StatelessWidget {
     }
 
     // 🍬 Sugar
-    if (sugarVal > 40) {
+    if (sugarVal > 60) {
+      score += 4;
+    } else if (sugarVal > 50) {
       score += 3;
     } else if (sugarVal > 30) {
       score += 2;
@@ -79,6 +87,8 @@ class SummaryCard extends StatelessWidget {
       score += 1;
     } else if (sugarVal < 10) {
       score -= 1;
+    } else if (sugarVal > 5) {
+      score -= 2;
     }
 
     // ☠️ Danger check

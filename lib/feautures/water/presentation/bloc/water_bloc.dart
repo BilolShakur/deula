@@ -10,6 +10,8 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
     on<AddWater>(_onAddWater);
     on<ResetWaterEvent>(_onResetWater);
     on<InitWaterEvent>(_onInitWater);
+    on<GetWaterToday>(_onfetchWaterToday);
+    on<getWatersByDate>(_onfetchWaterByData);
   }
 
   Future<void> _onAddWater(AddWater event, Emitter<WaterState> emit) async {
@@ -32,5 +34,21 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
   ) async {
     final total = await repository.getTotalConsumedWater();
     emit(state.copyWith(currentAmount: total.toInt()));
+  }
+
+  Future<void> _onfetchWaterByData(
+    getWatersByDate event,
+    Emitter<WaterState> emit,
+  ) async {
+    final totalFor = await repository.getDataByDate(event.start , event.end);
+    emit(state.copyWith(currentAmount: totalFor.toInt()));
+  }
+
+  Future<void> _onfetchWaterToday(
+    GetWaterToday event,
+    Emitter<WaterState> emit,
+  ) async {
+    final totalForToday = await repository.getTodayWater();
+    emit(state.copyWith(currentAmount: totalForToday.toInt()));
   }
 }

@@ -12,16 +12,13 @@ class WaterRepository {
   Future<void> clearWaterHistory() async {
     await WaterDBHelper.clearAll();
   }
+Future<double> getTodayWater() async {
+    final now = DateTime.now();
+    final startOfToday = DateTime(now.year, now.month, now.day);
+    final startOfTomorrow = startOfToday.add(const Duration(days: 1));
 
-  // ✅ Get water consumed today
-  Future<double> getTodayWater() async {
-    return await WaterDBHelper.getWaterBetween(
-      DateTime.now(),
-      DateTime.now().add(const Duration(days: 1)),
-    );
+    return await WaterDBHelper.getWaterBetween(startOfToday, startOfTomorrow);
   }
-
-  // ✅ Get water consumed this week
   Future<double> getWeekWater() async {
     final now = DateTime.now();
     final startOfWeek = DateTime(
@@ -33,7 +30,6 @@ class WaterRepository {
     return await WaterDBHelper.getWaterBetween(startOfWeek, endOfWeek);
   }
 
-  // ✅ Get water consumed this month
   Future<double> getMonthWater() async {
     final now = DateTime.now();
     final startOfMonth = DateTime(now.year, now.month, 1);
@@ -41,5 +37,9 @@ class WaterRepository {
         ? DateTime(now.year, now.month + 1, 1)
         : DateTime(now.year + 1, 1, 1);
     return await WaterDBHelper.getWaterBetween(startOfMonth, startOfNextMonth);
+  }
+
+ Future<double> getDataByDate(DateTime start, DateTime end) async {
+    return await WaterDBHelper.getWaterForDate(start, end);
   }
 }

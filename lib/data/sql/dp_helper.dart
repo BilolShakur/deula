@@ -42,6 +42,18 @@ class DBHelper {
     ''');
     print("✅ meals table created");
   }
+  static Future<List<Map<String, dynamic>>> getMealsBetween(
+    DateTime start,
+    DateTime end,
+  ) async {
+    final db = await database;
+    return await db.query(
+      tableMeal,
+      where: 'date >= ? AND date < ?',
+      whereArgs: [start.toIso8601String(), end.toIso8601String()],
+      orderBy: 'date DESC',
+    );
+  }
 
   static Future<int> insertMeal(Map<String, dynamic> data) async {
     final db = await database;
