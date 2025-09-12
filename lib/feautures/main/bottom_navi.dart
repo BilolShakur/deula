@@ -1,5 +1,6 @@
 import 'package:deula/feautures/add_meal/presentation/screens/add_screen.dart';
 import 'package:deula/feautures/home/presentation/screens/home_screen.dart';
+import 'package:deula/feautures/settings/presentation/screens/setttings_main.dart';
 import 'package:deula/feautures/water/presentation/water_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class _MainScreenState extends State<MainScreen> {
     const HomeScreen(key: ValueKey("home")),
     const AddMealScreen(key: ValueKey("add")),
     const WaterScreen(key: ValueKey("water")),
+    const SettingsMainScreen(key: ValueKey("settings"),)
   ];
 
   @override
@@ -51,6 +53,10 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: const Icon(Icons.local_drink),
             label: tr("hydrate"),
+          ),
+           BottomNavigationBarItem(
+            icon: const Icon(Icons.settings),
+            label: tr("settings"),
           ),
         ],
       ),
