@@ -21,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
     const HomeScreen(key: ValueKey("home")),
     const AddMealScreen(key: ValueKey("add")),
     const WaterScreen(key: ValueKey("water")),
-    const SettingsMainScreen(key: ValueKey("settings"),)
+    const SettingsScreen(key: ValueKey("settings"),)
   ];
 
   @override

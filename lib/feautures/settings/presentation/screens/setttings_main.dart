@@ -1,26 +1,22 @@
 import 'package:deula/feautures/settings/presentation/wdigets/settings_row.dart';
 import 'package:flutter/material.dart';
 
-class SettingsMainScreen extends StatelessWidget {
-  const SettingsMainScreen({super.key});
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-
-    
-      body:  SafeArea(
+    return const Scaffold(
+      body: SingleChildScrollView(child: SafeArea(child: Padding(
+        padding: EdgeInsets.all(30),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            ListView.builder(itemBuilder: (context, index) {
-              return const SettingsRow();
-            }, shrinkWrap: true, itemCount: 10,),
             SettingsRow()
           ],
+        
+          
         ),
-      )
+      ))),
     );
   }
 }
