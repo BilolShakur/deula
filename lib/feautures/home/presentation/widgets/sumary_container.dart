@@ -1,9 +1,9 @@
-import 'package:deula/core/constants/app_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SummaryCard extends StatelessWidget {
+  final String when; // "Today", "This Week", "Custom Date", etc.
   final String calories;
   final String water;
   final String protein;
@@ -11,15 +11,24 @@ class SummaryCard extends StatelessWidget {
   final String? sugar;
 
   const SummaryCard({
-    super.key,
+    Key? key,
+    required this.when,
     required this.calories,
     required this.water,
     required this.protein,
     this.fat,
     this.sugar,
-  });
+  }) : super(key: key);
+
+  int getMultiplier() {
+    if (when.contains("Week")) return 7;
+    if (when.contains("Month")) return 30;
+    return 1; // Today, Yesterday, Custom Date
+  }
 
   (Color bg, Color textColor, IconData icon, String message) getStatus() {
+    final multiplier = getMultiplier();
+
     final cal = int.tryParse(calories.replaceAll(RegExp(r'\D'), '')) ?? 0;
     final wat = double.tryParse(water.replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0;
     final prot = int.tryParse(protein.replaceAll(RegExp(r'\D'), '')) ?? 0;
@@ -30,58 +39,67 @@ class SummaryCard extends StatelessWidget {
     int score = 0;
     bool waterDanger = false;
 
-    // 🔥 Calories
-    if (cal < 1200 || cal > 2800) {
-      score += 1;
-    } else if (cal >= 1500 && cal <= 2500) {
-      score -= 1;
+    // Calories
+    if (cal < 700 * multiplier || cal > 3500 * multiplier) {
+      score += 5;
+    } else if (cal >= 1200 * multiplier && cal <= 2800 * multiplier) {
+      score += 2;
+    } else if (cal >= 1500 * multiplier && cal <= 2500 * multiplier) {
+      score -= 4;
     }
 
-    // 💧 Water
-    if (wat < 1.5) {
+    // Water
+    if (wat < 1.5 * multiplier) {
       score += 2;
-    } else if (wat >= 1.5 && wat <= 3.5) {
+    } else if (wat >= 1.5 * multiplier && wat <= 3.5 * multiplier) {
       score -= 1;
-    } else if (wat > 4 && wat < 6) {
+    } else if (wat > 4 * multiplier && wat < 6 * multiplier) {
       score += 1;
-    } else if (wat >= 6 && wat < 8) {
+    } else if (wat >= 6 * multiplier && wat < 8 * multiplier) {
       score += 2;
-    } else if (wat >= 8) {
+    } else if (wat >= 8 * multiplier) {
       waterDanger = true;
     }
 
-    // 🍗 Protein
-    if (prot < 35) {
+    // Protein
+    if (prot < 35 * multiplier) {
       score += 1;
-    } else if (prot >= 50) {
-      score -= 1;
-    }
-
-    // 🧈 Fat
-    if (fatVal > 60) {
-      score += 3;
-    } else if (fatVal > 50) {
-      score += 2;
-    } else if (fatVal > 40) {
-      score += 1;
-    } else if (fatVal < 15) {
+    } else if (prot >= 100 * multiplier) {
+      score -= 3;
+    } else if (prot >= 700 * multiplier) {
       score -= 2;
-    } else if (fatVal < 25) {
+    } else if (prot >= 50 * multiplier) {
       score -= 1;
     }
 
-    // 🍬 Sugar
-    if (sugarVal > 40) {
+    // Fat
+    if (fatVal > 60 * multiplier) {
       score += 3;
-    } else if (sugarVal > 30) {
+    } else if (fatVal > 50 * multiplier) {
       score += 2;
-    } else if (sugarVal > 20) {
+    } else if (fatVal > 40 * multiplier) {
       score += 1;
-    } else if (sugarVal < 10) {
+    } else if (fatVal < 15 * multiplier) {
+      score -= 2;
+    } else if (fatVal < 25 * multiplier) {
       score -= 1;
     }
 
-    // ☠️ Danger check
+    // Sugar
+    if (sugarVal > 60 * multiplier) {
+      score += 4;
+    } else if (sugarVal > 50 * multiplier) {
+      score += 3;
+    } else if (sugarVal > 30 * multiplier) {
+      score += 2;
+    } else if (sugarVal > 20 * multiplier) {
+      score += 1;
+    } else if (sugarVal < 10 * multiplier) {
+      score -= 1;
+    } else if (sugarVal > 5 * multiplier) {
+      score -= 2;
+    }
+
     if (waterDanger) {
       return (
         Colors.red.shade100,
@@ -91,7 +109,6 @@ class SummaryCard extends StatelessWidget {
       );
     }
 
-    // 🎯 Final interpretation
     if (score >= 5) {
       return (
         Colors.red.shade100,
@@ -138,7 +155,7 @@ class SummaryCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "summary_title".tr(),
+            "summary_title".tr(namedArgs: {"period": "${when}'s"}),
             style: TextStyle(fontSize: 18.sp, color: textColor),
           ),
           SizedBox(height: 10.h),
@@ -199,4 +216,6 @@ class SummaryCard extends StatelessWidget {
       ],
     );
   }
+
+  // Translation key mapping for summary title
 }

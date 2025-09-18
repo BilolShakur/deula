@@ -2,6 +2,7 @@ import 'package:deula/core/di/service_locator.dart';
 import 'package:deula/feautures/home/data/meal_reposotory.dart';
 import 'package:deula/feautures/home/presentation/screens/bloc/meal_bloc.dart';
 import 'package:deula/feautures/main/bottom_navi.dart';
+import 'package:deula/feautures/settings/presentation/bloc/settings_bloc.dart';
 import 'package:deula/feautures/water/data/reposotory/water_reposotory.dart';
 import 'package:deula/feautures/water/presentation/bloc/water_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -25,15 +26,16 @@ void main() async {
         BlocProvider(
           create: (context) => MealBloc(GetIt.instance<MealRepository>()),
         ),
+        BlocProvider(create: (context) =>SettingsBloc())
       ],
       child: EasyLocalization(
         supportedLocales: const [
           Locale('en'), // English
-          Locale('uz'), // Uzbek
-          Locale('ru'), // Russian
+          Locale('uz'), 
+          Locale('ru'), 
         ],
         path: 'assets/translations',
-        startLocale: Locale("en"),
+        startLocale: const Locale("en"),
         fallbackLocale: const Locale('en'),
         child: const DeulaApp(),
       ),

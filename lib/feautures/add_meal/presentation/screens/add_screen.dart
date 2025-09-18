@@ -1,7 +1,7 @@
 import 'package:deula/core/constants/app_colors.dart';
 import 'package:deula/feautures/home/domain/models/meal_model.dart';
-
 import 'package:deula/feautures/home/presentation/screens/bloc/meal_bloc.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,15 +37,24 @@ class _AddMealScreenState extends State<AddMealScreen> {
     }
   }
 
+  void _resetForm() {
+    _formKey.currentState?.reset();
+    _titleController.clear();
+    _caloriesController.clear();
+    _proteinController.clear();
+    _fatController.clear();
+    _sugarController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<MealBloc, MealState>(
       listener: (context, state) {
-        if (state is MealLoaded) {
+        if (state is OnAddSuccess) {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(tr("meal_added_success"))));
-          Navigator.pop(context); // Go back to main screen
+          _resetForm();
         } else if (state is MealError) {
           ScaffoldMessenger.of(
             context,

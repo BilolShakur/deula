@@ -10,3 +10,10 @@ class AddMeal extends MealEvent {
 
   AddMeal(this.meal);
 }
+
+class FilterMealsByDate extends MealEvent {
+  final DateTime start;
+  final DateTime end;
+
+  FilterMealsByDate(this.start, this.end);
+}

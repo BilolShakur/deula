@@ -20,3 +20,5 @@ class MealError extends MealState {
 
   const MealError(this.message);
 }
+
+class OnAddSuccess extends MealState {}

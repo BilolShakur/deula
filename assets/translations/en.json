@@ -1,7 +1,7 @@
 {
   "greeting": "Good morning, 👋",
   "quote_you_are_what_you_eat": "You are what you eat.",
-  "summary_title": "Today’s Summary",
+  "summary_title": "{period} Summary",
   "label_calories": "Calories",
   "label_water": "Water",
   "label_protein": "Protein",
@@ -42,6 +42,8 @@
     "100": "100 ml",
     "250": "250 ml",
     "500": "500 ml"
-  }
+  },
+  "meal_added_success": "Meal added successfully!",
+  "nav_home": "Home"
 
 }
